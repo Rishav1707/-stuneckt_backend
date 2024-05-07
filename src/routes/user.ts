@@ -194,10 +194,10 @@ router.put(
       }
 
       await User.findByIdAndUpdate(fromUser._id, {
-        $push: { following: toUser._id },
+        $addToSet: { following: toUser._id },
       });
       await User.findByIdAndUpdate(toUser._id, {
-        $push: { followers: fromUser._id },
+        $addToSet: { followers: fromUser._id },
       });
 
       res.status(ResponseStatus.Success).json({ message: "User followed" });
