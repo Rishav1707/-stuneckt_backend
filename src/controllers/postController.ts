@@ -30,10 +30,26 @@ const createPost = async (req: any, res: Response) => {
 
 const allPosts = async (req: Request, res: Response) => {
   try {
-    const allPosts = await Post.find({});
-    res
-      .status(ResponseStatus.Success)
-      .json({ length: allPosts.length, Posts: allPosts });
+    const page = parseInt(req.query.page as string) || 1;
+    const limit = parseInt(req.query.limit as string) || 10;
+
+    const posts = await Post.find({})
+      .skip((page - 1) * limit)
+      .limit(limit);
+
+    if (posts.length === 0) {
+      res.status(ResponseStatus.NotFound).json({ message: "No posts found" });
+      return;
+    }
+
+    const totalPostsCount = await Post.countDocuments();
+
+    res.status(ResponseStatus.Success).json({
+      currentPage: page,
+      totalPages: Math.ceil(totalPostsCount / limit),
+      totalPosts: totalPostsCount,
+      posts,
+    });
   } catch (error: any) {
     res.status(ResponseStatus.InternalServerError).json({
       message: "Error while fetching all posts",
@@ -44,14 +60,28 @@ const allPosts = async (req: Request, res: Response) => {
 
 const PostsByUser = async (req: any, res: Response) => {
   try {
-    const Posts = await Post.find({ userId: req.userId });
+    const page = parseInt(req.query.page as string) || 1;
+    const limit = parseInt(req.query.limit as string) || 10;
+
+    const Posts = await Post.find({ userId: req.userId })
+      .skip((page - 1) * limit)
+      .limit(limit);
+
     if (Posts.length === 0) {
       res
         .status(ResponseStatus.NotFound)
         .json({ message: "No posts found for this user" });
       return;
     }
-    res.status(ResponseStatus.Success).json({ length: Posts.length, Posts });
+
+    const totalPostsCount = await Post.countDocuments({ userId: req.userId });
+
+    res.status(ResponseStatus.Success).json({
+      currentPage: page,
+      totalPages: Math.ceil(totalPostsCount / limit),
+      totalPosts: totalPostsCount,
+      Posts,
+    });
   } catch (error: any) {
     res.status(ResponseStatus.InternalServerError).json({
       message: "Error while fetching user posts",

@@ -106,19 +106,31 @@ const userProfile = async (req: any, res: Response) => {
 
 const userFollowers = async (req: any, res: Response) => {
   try {
-    const user = await User.findById(req.userId, { followers: 1 }).populate(
-      "followers",
-      { password: 0 }
-    );
+    const page = parseInt(req.query.page as string) || 1;
+    const limit = parseInt(req.query.limit as string) || 10;
+
+    const user = await User.findById(req.userId, { followers: 1 }).populate({
+      path: "followers",
+      select: { password: 0 },
+      options: {
+        limit: limit,
+        skip: (page - 1) * limit,
+      },
+    });
+
     if (!user) {
       res
         .status(ResponseStatus.UnauthorizedError)
         .json({ message: "User not found, Invalid User" });
       return;
     }
-    res
-      .status(ResponseStatus.Success)
-      .json({ length: user.followers.length, user });
+
+    res.status(ResponseStatus.Success).json({
+      currentPage: page,
+      totalPages: Math.ceil(user.followers.length / limit),
+      totalFollowers: user.followers.length,
+      followers: user.followers,
+    });
   } catch (error: any) {
     res.status(ResponseStatus.InternalServerError).json({
       message: "Error while fetching followers",
