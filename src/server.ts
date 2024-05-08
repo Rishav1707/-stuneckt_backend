@@ -28,6 +28,8 @@ app.get("/", (req: Request, res: Response) => {
   });
 });
 
+app.use("/api/v1", rootRouter);
+
 app.get("*", (req: Request, res: Response) => {
   res.status(ResponseStatus.NotFound).json({
     message: "Route not found",
@@ -37,8 +39,6 @@ app.get("*", (req: Request, res: Response) => {
     },
   });
 });
-
-app.use("/api/v1", rootRouter);
 
 const PORT: number | string = process.env.PORT || 3000;
 
