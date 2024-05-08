@@ -36,12 +36,6 @@ const UserSchema = new mongoose.Schema<UserType>({
     type: String,
     required: true,
   },
-  posts: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Post",
-    },
-  ],
   followers: [
     {
       type: mongoose.Schema.Types.ObjectId,
@@ -57,5 +51,4 @@ const UserSchema = new mongoose.Schema<UserType>({
 });
 
 const User = mongoose.model<UserType>("User", UserSchema);
-
 export { User };

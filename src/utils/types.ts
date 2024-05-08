@@ -7,7 +7,6 @@ interface UserType {
   firstName: string;
   lastName: string;
   about: string;
-  posts: Types.ObjectId[];
   followers: Types.ObjectId[];
   following: Types.ObjectId[];
 }
