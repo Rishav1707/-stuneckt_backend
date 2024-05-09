@@ -88,7 +88,15 @@ const userSignin = async (req: Request, res: Response) => {
 
 const userProfile = async (req: any, res: Response) => {
   try {
-    const user = await User.findById(req.userId, { password: 0 });
+    const user = await User.findById(req.userId, { password: 0 })
+      .populate({
+        path: "followers",
+        select: { password: 0 },
+      })
+      .populate({
+        path: "following",
+        select: { password: 0 },
+      });
     if (!user) {
       res
         .status(ResponseStatus.UnauthorizedError)

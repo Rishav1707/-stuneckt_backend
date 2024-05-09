@@ -34,6 +34,7 @@ const allPosts = async (req: Request, res: Response) => {
     const limit = parseInt(req.query.limit as string) || 10;
 
     const posts = await Post.find({})
+      .populate("userId")
       .skip((page - 1) * limit)
       .limit(limit);
 
