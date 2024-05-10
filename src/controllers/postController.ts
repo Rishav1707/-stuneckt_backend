@@ -36,7 +36,8 @@ const allPosts = async (req: Request, res: Response) => {
     const posts = await Post.find({})
       .populate("userId")
       .skip((page - 1) * limit)
-      .limit(limit);
+      .limit(limit)
+      .sort({ $natural: -1 });
 
     if (posts.length === 0) {
       res.status(ResponseStatus.NotFound).json({ message: "No posts found" });
@@ -65,8 +66,10 @@ const PostsByUser = async (req: any, res: Response) => {
     const limit = parseInt(req.query.limit as string) || 10;
 
     const Posts = await Post.find({ userId: req.userId })
+      .populate("userId")
       .skip((page - 1) * limit)
-      .limit(limit);
+      .limit(limit)
+      .sort({ $natural: -1 });
 
     if (Posts.length === 0) {
       res
