@@ -216,3 +216,7 @@ API Endpoint Documentation
 9.  Send a GET request to `/api/v1/post/all` to retrieve all posts.
     
 10.  Send a GET request to `/api/v1/post/myPosts` with valid authentication token in the request headers to retrieve posts by the authenticated user.
+    
+------------------------------------------
+
+## You can also test this api endpoints here - [demo](https://stuneckt-frontend.vercel.app/)
