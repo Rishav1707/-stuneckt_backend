@@ -71,7 +71,7 @@ const PostsByUser = async (req: any, res: Response) => {
       .limit(limit)
       .sort({ $natural: -1 });
 
-    if (Posts.length === 0) {
+    if (!Posts) {
       res
         .status(ResponseStatus.NotFound)
         .json({ message: "No posts found for this user" });

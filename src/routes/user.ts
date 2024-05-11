@@ -8,11 +8,14 @@ import {
   userFollowers,
   userUpdateProfile,
   userFollowAnotheruser,
+  allUsers,
 } from "../controllers/userController";
 
 router.post("/signup", userSignup);
 
 router.post("/signin", userSignin);
+
+router.get("/all", authMiddleware, allUsers);
 
 router.get("/profile", authMiddleware, userProfile);
 

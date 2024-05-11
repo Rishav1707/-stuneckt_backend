@@ -86,6 +86,25 @@ const userSignin = async (req: Request, res: Response) => {
   }
 };
 
+const allUsers = async (req: any, res: Response) => {
+  try {
+    const users = await User.find(
+      { _id: { $ne: req.userId } },
+      { password: 0 }
+    );
+    if (users.length === 0) {
+      res.status(ResponseStatus.NotFound).json({ message: "No users found" });
+      return;
+    }
+    res.status(ResponseStatus.Success).json(users);
+  } catch (error: any) {
+    res.status(ResponseStatus.InternalServerError).json({
+      message: "Error while fetching all users",
+      error: error.message,
+    });
+  }
+};
+
 const userProfile = async (req: any, res: Response) => {
   try {
     const user = await User.findById(req.userId, { password: 0 })
@@ -224,4 +243,5 @@ export {
   userFollowers,
   userUpdateProfile,
   userFollowAnotheruser,
+  allUsers,
 };
