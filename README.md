@@ -119,7 +119,7 @@ API Endpoint Documentation
 
 *   **Method:** GET
     
-*   **Endpoint:** **`/api/v1/user/followers`**
+*   **Endpoint:** **`/api/v1/user/followers?page=1&limit=10`**
     
 *   **Description:** Get followers of the authenticated user.
     
@@ -173,7 +173,7 @@ API Endpoint Documentation
 
 *   **Method:** GET
     
-*   **Endpoint:** **`/api/v1/post/all`**
+*   **Endpoint:** **`/api/v1/post/all?page=1&limit=10`**
     
 *   **Description:** Retrieve all posts.
     
@@ -205,7 +205,7 @@ API Endpoint Documentation
     
 4.  Send a GET request to `/api/v1/user/profile` with valid authentication token in the request headers.
     
-5.  Send a GET request to `/api/v1/user/followers` with valid authentication token in the request headers.
+5.  Send a GET request to `/api/v1/user/followers?page=1&limit=10` with valid authentication token in the request headers.
     
 6.  Send a PUT request to `/api/v1/user/updateProfile` with updated user data and valid authentication token in the request headers.
     
@@ -213,7 +213,7 @@ API Endpoint Documentation
     
 8.  Send a POST request to `/api/v1/post/create` with JSON payload containing **image**, **title** and **content** in the request body and valid authentication token in the request headers.
     
-9.  Send a GET request to `/api/v1/post/all` to retrieve all posts.
+9.  Send a GET request to `/api/v1/post/all?page=1&limit=10` to retrieve all posts.
     
 10.  Send a GET request to `/api/v1/post/myPosts` with valid authentication token in the request headers to retrieve posts by the authenticated user.
     
